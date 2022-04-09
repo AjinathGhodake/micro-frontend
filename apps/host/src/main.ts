@@ -1,13 +1,7 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+// import('./bootstrap').catch((err) => console.error(err));
+import { setRemoteDefinitions } from '@nrwl/angular/mfe';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
-
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch((err) => console.error(err));
+fetch('/assets/mfe.manifest.json')
+  .then((res) => res.json())
+  .then((definitions) => setRemoteDefinitions(definitions))
+  .then(() => import('./bootstrap').catch((err) => console.error(err)));
